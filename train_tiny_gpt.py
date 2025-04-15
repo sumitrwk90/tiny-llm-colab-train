@@ -1,5 +1,3 @@
-print("Hello world")
-
 # ✅ tiny_llm_colab_train/train_tiny_gpt2.py
 
 from transformers import GPT2Config, GPT2LMHeadModel, Trainer, TrainingArguments, PreTrainedTokenizerFast
@@ -7,14 +5,14 @@ from datasets import load_dataset
 import torch
 
 # Load Tokenizer
-tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer/tokenizer.json")
+tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer/vocab.json")
 tokenizer.pad_token = tokenizer.eos_token
 
 # Load and Tokenize Dataset
 def tokenize_function(example):
     return tokenizer(example["text"], truncation=True, padding="max_length", max_length=512)
 
-dataset = load_dataset("text", data_files={"train": "data/data.txt"})
+dataset = load_dataset("text", data_files={"train": "data/the_verdict.txt"})
 tokenized_dataset = dataset.map(tokenize_function, batched=True, remove_columns=["text"])
 
 # Define Tiny GPT-2 Config
